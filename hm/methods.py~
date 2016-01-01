@@ -11,4 +11,3 @@ def retrieve_all_usernames():
 		usernames.append(user.get_username())
 
 	return usernames
-
