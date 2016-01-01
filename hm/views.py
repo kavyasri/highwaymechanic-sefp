@@ -14,7 +14,7 @@ class LoginView(FormView):
 	form_class = LoginForm
 	template_name = templatenames.LOGIN
 	def get_context_data(self, **kwargs):
-		context = super(LoginView,self),get_context_data(**kwargs)
+		context = super(LoginView,self).get_context_data(**kwargs)
 		return context
 	def form_valid(self,form):
 		return super(LoginView,self).form_valid(form)
@@ -24,7 +24,7 @@ class RegisterView(FormView):
 	form_class = RegisterForm
 	template_name = templatenames.REGISTER
 	def get_context_data(self, **kwargs):
-		context = super(RegisterView,self),get_context_data(**kwargs)
+		context = super(RegisterView,self).get_context_data(**kwargs)
 		return context
 	def form_valid(self,form):
 		return super(RegisterView, self).form_valid(form)
@@ -65,8 +65,8 @@ class SearchMechanicsView(RedirectView):
 	pattern_name = templatenames.search_mechanics
 	def get_redirect_url(self, *args, **kwargs):
 		context = super(SearchMechanicsView,self).get_redirect_url(*args,**kwargs)
-		user_latitude = self.request.session['user_longitude']
-		user_longitude =self.request.session['user_latitude']
+		user_latitude = str(self.request.session['user_longitude'])
+		user_longitude =str(self.request.session['user_latitude'])
 		user_location = (float(user_latitude),float(user_longitude))
 		mechanics = Mechanic.objects.all()	
 		MECHANIC_QUERY_LIST = list()

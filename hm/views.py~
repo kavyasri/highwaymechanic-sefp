@@ -65,8 +65,8 @@ class SearchMechanicsView(RedirectView):
 	pattern_name = templatenames.search_mechanics
 	def get_redirect_url(self, *args, **kwargs):
 		context = super(SearchMechanicsView,self).get_redirect_url(*args,**kwargs)
-		user_latitude = self.request.session['user_longitude']
-		user_longitude =self.request.session['user_latitude']
+		user_latitude = str(self.request.session['user_longitude'])
+		user_longitude =str(self.request.session['user_latitude'])
 		user_location = (float(user_latitude),float(user_longitude))
 		mechanics = Mechanic.objects.all()	
 		MECHANIC_QUERY_LIST = list()
