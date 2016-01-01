@@ -63,6 +63,8 @@ class SelectServiceView(FormView):
  
 		return context
 	def form_valid(self,form):
+		service = form.cleaned_data['service']
+		self.request.session['service_selected'] = service
 		return super(SelectServiceView, self).form_valid(form)
 	def form_invalid(self,form):
 		return super(SelectServiceView, self).form_invalid(form)
