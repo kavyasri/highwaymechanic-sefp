@@ -1,0 +1,40 @@
+#dropdown-user{
+	float:right;
+	margin-right: 90px;
+	border-top: 70px;
+	margin-top: 20px;
+}
+article{
+	float:left;
+}
+
+#mapholder{
+	max-width:100vw;
+	height:50vh;
+	
+	
+	
+}
+
+#confirm-location{
+	margin-top:20px;
+	background:midnightblue;
+	color:white;
+}
+
+div>h1{
+	color:#FFFFFF;
+	font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	font-size: 100%;
+
+}
+#home-page-div{
+	background-color: #333ccc;
+}
+#action-bar{
+	margin-top: 5%;
+
+}
+#search-mechanics{
+	margin-top: 10%;
+}
