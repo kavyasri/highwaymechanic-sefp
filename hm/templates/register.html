@@ -1,38 +1,10 @@
 <html>
 <head>
-	<link rel="stylesheet" href="css/bootstrap.min.css">
+	{% include 'head.html' %}
 </head>
 <body>
-<h1>Mechanic Register</h1>
-<div class="form-group">
-<label for="Name">Name</label>
-<input type="name"class="form-control"id="Name" placeholder="Name">
-</div>
-<div class="form-group">
-<label for="Email">Email address</label>
-<input type="email"class="form-control" id="Email" placeholder="Email">
-</div>
-<div class="form-group">
-<label for="PhoneNo">Phone No</label>
-<input type="phoneno"class="form-control" id="Phone No" placeholder="Phone No">
-</div>
-<div class="form-group">
-<label for="Password">Password</label>
-<input type="password"class="form-control" id="Password" placeholder="Password">
-</div>
-<div class="form-group">
-<label for="Confirm Password">Confirm Password</label>
-<input type="confirm password"class="form-control"id="Confirm Password" placeholder="Confirm Password">
-</div>
-<div class="form-group">
-<label for="Address">Address</label>
-<input type="address"class="form-control" id="Address" placeholder="Address">
-</div>
-<div class="form-group">
-<label for="AadharNo">Aadhar No</label>
-<input type="aadharno"class="form-control" id="Aadhar No" placeholder="Aadhar No">
-</div>
-<button type="SignUp" class="btn btn-success">Sign Up</button>
+{{form.as_p}}
+<button type="submit" class="btn btn-success">Sign Up</button>
 </body>
 </html>
 

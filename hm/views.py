@@ -7,6 +7,7 @@ from hm import methods
 from haversine import haversine
 from decimal import Decimal
 from hm.models import Mechanic
+from django.shortcuts import HttpResponseRedirect
 class IndexView(TemplateView):
 	template_name = templatenames.INDEX	
 
@@ -17,7 +18,12 @@ class LoginView(FormView):
 		context = super(LoginView,self).get_context_data(**kwargs)
 		return context
 	def form_valid(self,form):
-		return super(LoginView,self).form_valid(form)
+		redirect_to = settings.LOGIN_REDIRECT_URL
+        	auth_login(self.request, form.get_user())
+        	if self.request.session.test_cookie_worked():
+           		self.request.session.delete_test_cookie()
+        	return HttpResponseRedirect(redirect_to)
+		
 	def form_invalid(self,form):
 		return super(LoginView,self).form_invalid(form)
 class RegisterView(FormView):
@@ -118,7 +124,7 @@ class UserWaitingView(TemplateView):
 	template_name = templatenames.USER_WAITING
 	def get_context_data(self, **kwargs):
 		context = super(UserWaitingView, self).get_context_data(**kwargs)
-		context = { 'distance':self.request.session.get('mechanic_distance'), 'ulat':self.request.session.get('user_latitude'), 'ulong':self.request.session.get('user_longitude'),}	
+		context = { 'mechanics':self.request.session.get('mechanic_query_list'), 'ulat':self.request.session.get('user_latitude'), 'ulong':self.request.session.get('user_longitude'),}	
 			
 		
 		return context
