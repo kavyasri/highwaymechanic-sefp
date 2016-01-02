@@ -8,10 +8,21 @@ from haversine import haversine
 from decimal import Decimal
 from hm.models import Mechanic
 from django.shortcuts import HttpResponseRedirect
+<<<<<<< HEAD
 from django.template import RequestContext
+=======
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.models.UserManager import create_user 
+from django.contrib.auth.models import User
+
+
+>>>>>>> 283c2ebbec45e0f7ff43aaf74e2b0e15849bf427
 class IndexView(TemplateView):
 	template_name = templatenames.INDEX	
-
+	def get_context_data(self, **kwargs):
+		context = super(IndexView, self).get_context_data(**kwargs)
+		context = { 'user': self.request.user	}
+		return context
 class LoginView(FormView):
 	form_class = LoginForm
 	template_name = templatenames.LOGIN
@@ -34,6 +45,13 @@ class RegisterView(FormView):
 		context = super(RegisterView,self).get_context_data(**kwargs)
 		return context
 	def form_valid(self,form):
+		username = form.cleaned_data['username']
+		password = form.cleaned_data['password']
+		password_again = form.cleaned_data['password_again']
+		usernames = methods.retrieve_all_usernames()
+		if password == password_again and username not in usernames:
+			create_user(username, password)
+		
 		return super(RegisterView, self).form_valid(form)
 	def form_invalid(self,form):
 
@@ -49,6 +67,8 @@ class SelectServiceView(FormView):
  
 		return context
 	def form_valid(self,form):
+		service = form.cleaned_data['service']
+		self.request.session['service_selected'] = service
 		return super(SelectServiceView, self).form_valid(form)
 	def form_invalid(self,form):
 		return super(SelectServiceView, self).form_invalid(form)
