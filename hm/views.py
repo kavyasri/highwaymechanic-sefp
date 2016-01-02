@@ -17,7 +17,7 @@ class IndexView(TemplateView):
 	template_name = templatenames.INDEX	
 	def get_context_data(self, **kwargs):
 		context = super(IndexView, self).get_context_data(**kwargs)
-		context = { 'user': self.request.user	
+		context = { 'user': self.request.user}
 		return context
 class LoginView(FormView):
 	form_class = LoginForm

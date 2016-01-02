@@ -46,8 +46,6 @@ class RegisterView(FormView):
 		password_again = form.cleaned_data['password_again']
 		usernames = methods.retrieve_all_usernames()
 		if password == password_again and username not in usernames:
-			
-			
 			create_user(username, password)
 		
 		return super(RegisterView, self).form_valid(form)
