@@ -8,20 +8,16 @@ from haversine import haversine
 from decimal import Decimal
 from hm.models import Mechanic
 from django.shortcuts import HttpResponseRedirect
-<<<<<<< HEAD
-from django.template import RequestContext
-=======
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.models.UserManager import create_user 
 from django.contrib.auth.models import User
 
 
->>>>>>> 283c2ebbec45e0f7ff43aaf74e2b0e15849bf427
 class IndexView(TemplateView):
 	template_name = templatenames.INDEX	
 	def get_context_data(self, **kwargs):
 		context = super(IndexView, self).get_context_data(**kwargs)
-		context = { 'user': self.request.user	}
+		context = { 'user': self.request.user}
 		return context
 class LoginView(FormView):
 	form_class = LoginForm
@@ -67,8 +63,6 @@ class SelectServiceView(FormView):
  
 		return context
 	def form_valid(self,form):
-		service = form.cleaned_data['service']
-		self.request.session['service_selected'] = service
 		return super(SelectServiceView, self).form_valid(form)
 	def form_invalid(self,form):
 		return super(SelectServiceView, self).form_invalid(form)
@@ -110,8 +104,7 @@ class SearchMechanicsView(RedirectView):
 				MECHANIC_QUERY_LIST.append(mechanic_object)
 		self.request.session['mechanic_query_list'] = MECHANIC_QUERY_LIST
 					
-		return context
-		
+		return context	
 
 class MechanicReceiveRequestView(TemplateView):
 	template_name = templatenames.MECHANIC_SERVICE_REQUEST
