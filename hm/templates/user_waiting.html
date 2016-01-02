@@ -1,3 +1,23 @@
-{{distance}}<br>
-{{ulat}}<br>
-{{ulong}}
+{% load staticfiles %}
+<html>
+	<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1" content="width=620">
+	<link rel="stylesheet" type="text/css" href="{% static 'hm/css/bootstrap.min.css'%}" />
+	<link rel="stylesheet" type="text/css" href="{% static 'hm/css/style.css'%}">	
+	<link rel="stylesheet" type="text/css" href="{% static 'hm/css/font-awesome.min.css'%}">
+	<script src="{% static 'hm/js/jquery.min.js' %}"></script>
+	<script src="{% static 'hm/js/bootstrap.min.js' %}"></script>
+
+	</head>
+	<body>
+		{% include 'header.html' %}
+		{{mechanics}}<br>
+
+
+	<br>
+	{{ulat}}<br>
+	{{ulong}}
+
+	</body>		
+</html>

@@ -1,4 +1,5 @@
 $(document).ready(function(){
+window.addr = '';
 getLocation();
 
 function redirecter(){
@@ -12,6 +13,8 @@ function getLocation() {
         alert('Please share your location to avail our services');
     }
 }
+
+
 function showPosition(position) {
     lat = position.coords.latitude;
     lon = position.coords.longitude;
@@ -29,7 +32,14 @@ function showPosition(position) {
         	}
     });	    
 	
-    latlon = new google.maps.LatLng(lat, lon)
+    latlon = new google.maps.LatLng(lat, lon);
+    geocoder = new google.maps.Geocoder();
+    geocoder.geocode({'latLng':latlon},function(results,status){
+        if(status == google.maps.GeocoderStatus.OK){
+            window.addr = results[0].formatted_address;
+
+        }
+    });
     mapholder = document.getElementById('mapholder')
     mapholder.style.height = '70vh';
     mapholder.style.width = '100%';
@@ -42,7 +52,8 @@ function showPosition(position) {
     }
     
     var map = new google.maps.Map(document.getElementById("mapholder"), myOptions);
-    var marker = new google.maps.Marker({position:latlon,map:map,title:"You are here!"});
+    var marker = new google.maps.Marker({position:latlon,map:map,title:"you are here!"});
+    console.log(addr);
 }
 function showError(error) {
     switch(error.code) {

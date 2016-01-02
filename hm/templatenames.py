@@ -25,3 +25,4 @@ search_mechanics			= 'searchmechanics'
 
 #templatevalues goes here
 
+MAX_THRESHOLD_INITIAL       = 5.0
