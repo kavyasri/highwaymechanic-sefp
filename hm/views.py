@@ -8,6 +8,7 @@ from haversine import haversine
 from decimal import Decimal
 from hm.models import Mechanic
 from django.shortcuts import HttpResponseRedirect
+from django.template import RequestContext
 class IndexView(TemplateView):
 	template_name = templatenames.INDEX	
 
@@ -89,7 +90,8 @@ class SearchMechanicsView(RedirectView):
 				MECHANIC_QUERY_LIST.append(mechanic_object)
 		self.request.session['mechanic_query_list'] = MECHANIC_QUERY_LIST
 					
-		return context	
+		return context
+		
 
 class MechanicReceiveRequestView(TemplateView):
 	template_name = templatenames.MECHANIC_SERVICE_REQUEST
