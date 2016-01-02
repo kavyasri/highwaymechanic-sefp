@@ -12,12 +12,19 @@
 	</head>
 	<body>
 		{% include 'header.html' %}
-		{{mechanics}}<br>
-
-
-	<br>
-	{{ulat}}<br>
-	{{ulong}}
-
+		{% if no_mechanics %}		
+			<center>
+				<p class="text-info">Sorry, There are no mechanics in around 5km at your location</p>
+			</center>
+		{% endif %}
+		{% if not no_mechanics %}
+			<center>
+			<ol>
+			{% for mech in mechanics %}
+				<li>{{ mech.get_username }}	
+			{% endfor %}
+			</ol>
+			</center>
+		{%endif%}	
 	</body>		
 </html>

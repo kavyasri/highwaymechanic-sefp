@@ -9,7 +9,8 @@ from decimal import Decimal
 from hm.models import Mechanic
 from django.shortcuts import HttpResponseRedirect
 from django.contrib.auth import login as auth_login
-from django.contrib.auth.models.UserManager import create_user 
+from django.contrib.auth.models import UserManager 
+
 from django.contrib.auth.models import User
 
 
@@ -46,7 +47,7 @@ class RegisterView(FormView):
 		password_again = form.cleaned_data['password_again']
 		usernames = methods.retrieve_all_usernames()
 		if password == password_again and username not in usernames:
-			create_user(username, password)
+			UserManager.create_user(username, password)
 		
 		return super(RegisterView, self).form_valid(form)
 	def form_invalid(self,form):
@@ -102,8 +103,11 @@ class SearchMechanicsView(RedirectView):
 				mechanic_object['distance'] = distance 
 				mechanic_object['mechanic'] = mechanic
 				MECHANIC_QUERY_LIST.append(mechanic_object)
-		self.request.session['mechanic_query_list'] = MECHANIC_QUERY_LIST
-					
+		if len(MECHANIC_QUERY_LIST) == 0:
+			self.request.session['no_mechanics'] = 0
+		else:
+			self.request.session['mechanic_query_list'] = MECHANIC_QUERY_LIST
+			self.request.session['no_mechanics'] = len(MECHANICS_QUERY_LIST)		
 		return context	
 
 class MechanicReceiveRequestView(TemplateView):
@@ -139,7 +143,12 @@ class UserWaitingView(TemplateView):
 	template_name = templatenames.USER_WAITING
 	def get_context_data(self, **kwargs):
 		context = super(UserWaitingView, self).get_context_data(**kwargs)
-		context = { 'mechanics':self.request.session.get('mechanic_query_list'), 'ulat':self.request.session.get('user_latitude'), 'ulong':self.request.session.get('user_longitude'),}	
+		context = { 	'mechanics':self.request.session.get('mechanic_query_list'),
+				'ulat':self.request.session.get('user_latitude'), 
+				'ulong':self.request.session.get('user_longitude'),
+				'no_mechanics':(self.request.session.get('no_mechanics') == 0)
+				
+		}	
 			
 		
 		return context
