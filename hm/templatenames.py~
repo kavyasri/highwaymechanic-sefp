@@ -16,7 +16,7 @@ USER_SERVICE_REQUEST 			= 'user_service_request.html'
 USER_WAITING				= 'user_waiting.html'
 
 #urls goes here
-url_search_mechanics			= 'search/mechanics/'
+url_search_mechanics			= '/search/mechanics/'
 service_select				= '/service/select/'
 user_waiting				= '/user/wait/' 
 

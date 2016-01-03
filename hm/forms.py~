@@ -1,7 +1,7 @@
 from django import forms
 from hm.models import Service
 from django.contrib.auth.forms import AuthenticationForm
-from hm import templatenames
+from hm import templatenames, methods
 
 class LoginForm(AuthenticationForm):
 	email		= forms.EmailField( widget=forms.EmailInput(attrs={'class':'form-control'}) )	
@@ -13,8 +13,8 @@ class RegisterForm(forms.Form):
 	password_again  = forms.CharField( widget=forms.PasswordInput(attrs={'class':'form-control'}) )
 	
 class SelectServiceForm(forms.Form):
-	service		= forms.ModelMultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control',
+	service		= forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control',
 											    'rows':'50',
 											     'cols':'100'	
-							}),queryset=templatenames.services)	
+							}),choices=Service.objects.values_list('name')   )	
 
