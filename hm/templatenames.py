@@ -25,4 +25,5 @@ search_mechanics			= 'searchmechanics'
 
 #templatevalues goes here
 
-MAX_THRESHOLD_INITIAL       = 5.0
+MAX_THRESHOLD_DIST       		= 5.0
+GARBAGE_LOCATION			= 0.0

@@ -4,23 +4,27 @@ from hm.forms import LoginForm, RegisterForm, SelectServiceForm
 from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic.edit import FormView
 from hm import methods
-from haversine import haversine
-from decimal import Decimal
-from hm.models import Mechanic
 from django.shortcuts import HttpResponseRedirect
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.models import UserManager 
-
+from hm.templatenames import MAX_THRESHOLD_DIST
 from django.contrib.auth.models import User
 
 
 class IndexView(TemplateView):
+	'''
+	Backend Coding Completed. Javascript validation and beautification left.
+	'''
 	template_name = templatenames.INDEX	
 	def get_context_data(self, **kwargs):
 		context = super(IndexView, self).get_context_data(**kwargs)
 		context = { 'user': self.request.user}
 		return context
+
 class LoginView(FormView):
+	'''
+	Backend Coding Completed. Javascript validation and beautification left.
+	'''
 	form_class = LoginForm
 	template_name = templatenames.LOGIN
 	def get_context_data(self, **kwargs):
@@ -36,6 +40,9 @@ class LoginView(FormView):
 	def form_invalid(self,form):
 		return super(LoginView,self).form_invalid(form)
 class RegisterView(FormView):
+	'''
+	Backend Coding Completed. Javascript validation and beautification left.
+	'''
 	form_class = RegisterForm
 	template_name = templatenames.REGISTER
 	def get_context_data(self, **kwargs):
@@ -58,13 +65,20 @@ class SelectServiceView(FormView):
 	
 	form_class = SelectServiceForm
 	template_name = templatenames.SELECT_SERVICE
+
 	def get_context_data(self, **kwargs):
 		context = super(SelectServiceView,self).get_context_data(**kwargs)
-		context ={ 'user_lati':self.request.session.get('user_latitude'), 'user_long':self.request.session.get('user_longitude')}
+		context = { 'user_lati':self.request.session.get('user_latitude'), 
+			    'user_long':self.request.session.get('user_longitude')
+			}
  
 		return context
+
 	def form_valid(self,form):
+		service = form.cleaned_data['service']
+		self.request.session['service_selected'] = service
 		return super(SelectServiceView, self).form_valid(form)
+
 	def form_invalid(self,form):
 		return super(SelectServiceView, self).form_invalid(form)
 
@@ -78,6 +92,10 @@ class ConfirmLocationView(RedirectView):
 		if self.request.method == 'GET':	
 			self.request.session['user_longitude'] = self.request.GET.get('long')
 			self.request.session['user_latitude'] = self.request.GET.get('lati')
+			if self.request.GET.get('long') == None:
+				self.request.session['user_longitude'] = templatenames.GARBAGE_LOCATION
+			if self.request.GET.get('lati') == None:
+				self.request.session['user_latitude'] = templatenames.GARBAGE_LOCATION
 			
 		return context	
 
@@ -90,19 +108,9 @@ class SearchMechanicsView(RedirectView):
 		user_latitude = str(self.request.session['user_longitude'])
 		user_longitude =str(self.request.session['user_latitude'])
 		user_location = (float(user_latitude),float(user_longitude))
-		mechanics = Mechanic.objects.all()	
-		MECHANIC_QUERY_LIST = list()
-		for mechanic in mechanics:		
-			mechanic_latitude = mechanic.latitude 
-			mechanic_longitude = mechanic.longitude
-			
-			mechanic_location = (mechanic_latitude, mechanic_longitude)
-			distance = haversine( user_location, mechanic_location )
-			if distance < templatenames.MAX_THRESHOLD_INITIAL :
-				mechanic_object = dict()
-				mechanic_object['distance'] = distance 
-				mechanic_object['mechanic'] = mechanic
-				MECHANIC_QUERY_LIST.append(mechanic_object)
+		max_threshold_dist = MAX_THRESHOLD_DIST
+		MECHANIC_QUERY_LIST = methods.searchNearbyMechanics(user_location, max_threshold_dist)
+		
 		if len(MECHANIC_QUERY_LIST) == 0:
 			self.request.session['no_mechanics'] = 0
 		else:
@@ -146,7 +154,8 @@ class UserWaitingView(TemplateView):
 		context = { 	'mechanics':self.request.session.get('mechanic_query_list'),
 				'ulat':self.request.session.get('user_latitude'), 
 				'ulong':self.request.session.get('user_longitude'),
-				'no_mechanics':(self.request.session.get('no_mechanics') == 0)
+				'no_mechanics':(self.request.session.get('no_mechanics') == 0),
+				'service_selected':self.request.session.get('service_selected')
 				
 		}	
 			

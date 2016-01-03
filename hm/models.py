@@ -4,7 +4,8 @@ from django.contrib.auth.models import User as auth_user
 
 class Status(models.Model):
 	code 		= models.IntegerField(default=0,editable=True) 
-	code_message 	= models.TextField(default='NA') 
+	code_message 	= models.TextField(default='NA')
+	 
 
 class Mechanic(models.Model):
 	user 		= models.OneToOneField(auth_user)
