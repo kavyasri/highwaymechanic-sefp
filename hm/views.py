@@ -106,8 +106,8 @@ class SearchMechanicsView(RedirectView):
 	pattern_name = templatenames.search_mechanics
 	def get_redirect_url(self, *args, **kwargs):
 		context = super(SearchMechanicsView,self).get_redirect_url(*args,**kwargs)
-		user_latitude = str(self.request.session['user_longitude'])
-		user_longitude =str(self.request.session['user_latitude'])
+		user_latitude = str(self.request.session['user_latitude'])
+		user_longitude =str(self.request.session['user_longitude'])
 		user_location = (float(user_latitude),float(user_longitude))
 		max_threshold_dist = MAX_THRESHOLD_DIST
 		MECHANIC_QUERY_LIST = methods.serialize_list(methods.searchNearbyMechanics(user_location, max_threshold_dist))
