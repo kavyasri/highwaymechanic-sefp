@@ -4,9 +4,16 @@
 </head>
 <body>
 <h1> Login here </h1>
-{{ form.as_p}}
+<form method="post">
+	{% csrf_token %}
+	<label>Email</label>
+	{{ form.username}}
+	<label>Password</label>
+	{{form.password}}
+	<button type="submit" class="btn btn-success">Login</button>
+</form>
 
-<button type="submit" class="btn btn-success">Login</button>
+
 </head>
 </html>
 

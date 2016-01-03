@@ -4,8 +4,16 @@
 </head>
 <h1>Register Here...</h1>
 <body>
-{{form.as_p}}
+<form method="post">
+{% csrf_token %}
+<label>Email</label>{{form.username}}
+<label>Password</label>{{form.password}}
+<label>Password Again</label>{{form.password_again}}
+{{form.iamamechanic}}
+<label>I am a mechanic</label><br>
+
 <button type="submit" class="btn btn-success">Sign Up</button>
+</form>
 </body>
 </html>
 
