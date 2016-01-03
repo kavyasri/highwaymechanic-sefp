@@ -1,6 +1,8 @@
 '''
 This File is intentionally made to enable generation based configuration of names used in the project.
 '''
+
+
 #templatenames goes here
 CHAT_BOX				= 'chatbox.html'
 CONFIRM_LOCATION			= 'location_confirm.html'
@@ -14,7 +16,7 @@ USER_SERVICE_REQUEST 			= 'user_service_request.html'
 USER_WAITING				= 'user_waiting.html'
 
 #urls goes here
-search_mechanics			= 'search/mechanics/'
+url_search_mechanics			= '/search/mechanics/'
 service_select				= '/service/select/'
 user_waiting				= '/user/wait/' 
 

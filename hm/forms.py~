@@ -16,5 +16,5 @@ class SelectServiceForm(forms.Form):
 	service		= forms.ModelMultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control',
 											    'rows':'50',
 											     'cols':'100'	
-							}),queryset=Service.objects.all())	
+							}),queryset=templatenames.services)	
 

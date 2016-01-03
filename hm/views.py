@@ -65,18 +65,20 @@ class SelectServiceView(FormView):
 	
 	form_class = SelectServiceForm
 	template_name = templatenames.SELECT_SERVICE
-
+	success_url = templatenames.url_search_mechanics
 	def get_context_data(self, **kwargs):
 		context = super(SelectServiceView,self).get_context_data(**kwargs)
 		context = { 'user_lati':self.request.session.get('user_latitude'), 
-			    'user_long':self.request.session.get('user_longitude')
+			    'user_long':self.request.session.get('user_longitude'),
+			    'form':SelectServiceForm
 			}
  
 		return context
 
 	def form_valid(self,form):
 		service = form.cleaned_data['service']
-		self.request.session['service_selected'] = service
+		services = methods.serialize_services(service)
+		self.request.session['service_selected'] = services
 		return super(SelectServiceView, self).form_valid(form)
 
 	def form_invalid(self,form):

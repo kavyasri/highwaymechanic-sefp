@@ -24,8 +24,6 @@ class Driver(models.Model):
 class Service(models.Model):
 	name 		= models.CharField(max_length=150)
 	description 	= models.TextField()
-	def __str__(self):
-		return self.name
 
 class Chat(models.Model):
 	sender 		= models.ForeignKey(auth_user, related_name='sender')
