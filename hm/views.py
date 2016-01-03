@@ -10,7 +10,6 @@ from django.contrib.auth.models import UserManager
 from hm.templatenames import MAX_THRESHOLD_DIST
 from django.contrib.auth.models import User
 
-
 class IndexView(TemplateView):
 	'''
 	Backend Coding Completed. Javascript validation and beautification left.
@@ -77,7 +76,7 @@ class SelectServiceView(FormView):
 
 	def form_valid(self,form):
 		service = form.cleaned_data['service']
-		services = methods.serialize_services(service)
+		services = methods.serialize_list(service)
 		self.request.session['service_selected'] = services
 		return super(SelectServiceView, self).form_valid(form)
 
@@ -111,7 +110,7 @@ class SearchMechanicsView(RedirectView):
 		user_longitude =str(self.request.session['user_latitude'])
 		user_location = (float(user_latitude),float(user_longitude))
 		max_threshold_dist = MAX_THRESHOLD_DIST
-		MECHANIC_QUERY_LIST = methods.searchNearbyMechanics(user_location, max_threshold_dist)
+		MECHANIC_QUERY_LIST = serialize_list(methods.searchNearbyMechanics(user_location, max_threshold_dist))
 		
 		if len(MECHANIC_QUERY_LIST) == 0:
 			self.request.session['no_mechanics'] = 0

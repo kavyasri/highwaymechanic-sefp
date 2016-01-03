@@ -14,7 +14,9 @@ function getLocation() {
     }
 }
 
-
+$('#mapholder').load(function(){
+        $('.loading-gif').hide();
+    });
 function showPosition(position) {
     lat = position.coords.latitude;
     lon = position.coords.longitude;
@@ -52,6 +54,7 @@ function showPosition(position) {
     }
     
     var map = new google.maps.Map(document.getElementById("mapholder"), myOptions);
+    
     var marker = new google.maps.Marker({position:latlon,map:map,title:"you are here!"});
     console.log(addr);
 }

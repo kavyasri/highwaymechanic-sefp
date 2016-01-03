@@ -11,9 +11,7 @@ article{
 #mapholder{
 	max-width:100vw;
 	height:50vh;
-	
-	
-	
+
 }
 
 #confirm-location{
@@ -37,4 +35,16 @@ div>h1{
 }
 #search-mechanics{
 	margin-top: 10%;
+}
+.loading-gif {
+position: fixed;
+left: 0px;
+top: 20vh;
+width: 100%;
+height: 75%;
+z-index: 9999;
+background: url(/static/hm/images/loading_map.gif) center no-repeat #fff;
+}
+.loading-gif-txt{
+	margin-top: 25%;
 }
