@@ -2,6 +2,7 @@ from haversine import haversine
 from django.contrib.auth.models import User
 from hm.models import Mechanic, Service
 from django.core import serializers
+from hm import templatenames
 
 def distance_between(user, mechanic):
 	return haversine(user, mechanic)
@@ -26,8 +27,14 @@ def searchNearbyMechanics(user_location, max_threshold_dist):
 			if distance < max_threshold_dist:
 				mechanic_object = dict()
 				mechanic_object['distance'] = distance 
-				mechanic_object['mechanic'] = mechanic
+				mechanic_object['mechanic'] = mechanic.id
 				MECHANIC_QUERY_LIST.append(mechanic_object)
 	return MECHANIC_QUERY_LIST
 def serialize_list(list_model):
 	return serializers.serialize("xml", list_model)
+
+def location_caliberate(location):
+	if location == None:
+		return templatenames.GARBAGE_LOCATION
+	else:
+		return location

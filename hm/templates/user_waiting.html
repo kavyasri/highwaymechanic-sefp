@@ -20,8 +20,9 @@
 		{% if not no_mechanics %}
 			<center>
 			<ol>
+			{{ mechanics }}
 			{% for mech in mechanics %}
-				<li>{{ mech.get_username }}	
+				<li>{{ mech.get_username }}</li>	
 			{% endfor %}
 			</ol>
 			</center>

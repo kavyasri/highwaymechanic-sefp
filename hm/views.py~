@@ -58,6 +58,7 @@ class RegisterView(FormView):
 		context = super(RegisterView,self).get_context_data(**kwargs)
 		return context
 	def form_valid(self,form):
+		redirect_to = settings.LOGIN_REDIRECT_URL
 		user = User.objects.create_user(
             	username 	= form.cleaned_data['username'],
             	password 	= form.cleaned_data['password'],
@@ -83,7 +84,7 @@ class RegisterView(FormView):
 					 latitude	= self.request.session['user_latitude']				
 					)
 			driver.save()
-		return HttpResponseRedirect(self.success_url)
+		return HttpResponseRedirect(redirect_to)
 	
 	def form_invalid(self,form):
 		
@@ -137,8 +138,9 @@ class SearchMechanicsView(RedirectView):
 	pattern_name = templatenames.search_mechanics
 	def get_redirect_url(self, *args, **kwargs):
 		context = super(SearchMechanicsView,self).get_redirect_url(*args,**kwargs)
-		user_latitude = str(self.request.session['user_latitude'])
-		user_longitude =str(self.request.session['user_longitude'])
+		user_latitude = str(methods.location_caliberate(self.request.session.get('user_latitude')))
+		user_longitude = str(methods.location_caliberate(self.request.session.get('user_longitude')))
+		
 		user_location = (float(user_latitude),float(user_longitude))
 		max_threshold_dist = MAX_THRESHOLD_DIST
 		MECHANIC_QUERY_LIST = methods.serialize_list(methods.searchNearbyMechanics(user_location, max_threshold_dist))
