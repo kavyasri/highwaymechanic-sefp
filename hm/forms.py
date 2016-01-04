@@ -9,9 +9,9 @@ class LoginForm(AuthenticationForm):
 	password	= forms.CharField( widget=forms.PasswordInput(attrs={'class':'form-control'}) )
 
 class RegisterForm(forms.Form):
-	username  	= forms.EmailField( widget=forms.EmailInput(attrs={'class':'form-control'}) )	
-	password	= forms.CharField( widget=forms.PasswordInput(attrs={'class':'form-control'}) )
-	password_again  = forms.CharField( widget=forms.PasswordInput(attrs={'class':'form-control'}) )
+	username  	= forms.EmailField( widget=forms.EmailInput(attrs={'class':'form-control', 'id':'username'}) )	
+	password	= forms.CharField( widget=forms.PasswordInput(attrs={'class':'form-control', 'id':'password'}) )
+	password_again  = forms.CharField( widget=forms.PasswordInput(attrs={'class':'form-control', 'id':'password_again'}) )
 	iamamechanic	= forms.BooleanField(widget=forms.CheckboxInput(), required=False )
 	def clean_username(self):
         	try:

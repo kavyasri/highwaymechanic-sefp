@@ -6,17 +6,15 @@ $(document).ready(function(){
     };
     window.redirect_mapper = {
        '/':'/location/confirm/',
-        '/accounts/register/':'/',
-        '/accounts/login/':'/' 
     };
     window.urlname = window.location.pathname;
     
 window.addr = '';
 getLocation();
 
-function redirecter(){
+/*function redirecter(){
 	window.location.href=window.redirect_mapper[window.urlname];
-}
+}*/
 
 function getLocation() {
     if (navigator.geolocation) {

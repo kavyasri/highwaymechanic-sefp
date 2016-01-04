@@ -48,3 +48,7 @@ background: url(/static/hm/images/loading_map.gif) center no-repeat #fff;
 .loading-gif-txt{
 	margin-top: 25%;
 }
+.error{
+	font-size: 12px;
+	color:red;
+}

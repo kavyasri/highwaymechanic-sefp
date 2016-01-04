@@ -73,15 +73,18 @@ class RegisterView(FormView):
 			if self.request.GET.get('lati') == None:
 				self.request.session['user_latitude'] = templatenames.GARBAGE_LOCATION
 		if form.cleaned_data['iamamechanic'] == True:
+			if self.request.session.get('long') == None:
+				self.request.session['user_longitude'] = templatenames.GARBAGE_LOCATION
+			if self.request.session.get('lati') == None:
+				self.request.session['user_latitude'] = templatenames.GARBAGE_LOCATION
 			mechanic = Mechanic(user 	= user, 
-					    longitude   = self.request.session['user_longitude'],
-					    latitude 	= self.request.session['user_latitude']							
-					   )
+					    longitude   = self.request.session.get('user_longitude'),
+					    latitude 	= self.request.session.get('user_latitude') )
 			mechanic.save()			
 		if form.cleaned_data['iamamechanic'] == False:
 			driver = Driver( user 		= user,
-					 longitude	= self.request.session['user_longitude'],
-					 latitude	= self.request.session['user_latitude']				
+					 longitude	= self.request.session.get('user_longitude'),
+					 latitude	= self.request.session.get('user_latitude')				
 					)
 			driver.save()
 		return HttpResponseRedirect(redirect_to)
@@ -143,7 +146,7 @@ class SearchMechanicsView(RedirectView):
 		
 		user_location = (float(user_latitude),float(user_longitude))
 		max_threshold_dist = MAX_THRESHOLD_DIST
-		MECHANIC_QUERY_LIST = methods.serialize_list(methods.searchNearbyMechanics(user_location, max_threshold_dist))
+		MECHANIC_QUERY_LIST = methods.searchNearbyMechanics(user_location, max_threshold_dist)
 		
 		if len(MECHANIC_QUERY_LIST) == 0:
 			self.request.session['no_mechanics'] = 0

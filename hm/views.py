@@ -73,16 +73,18 @@ class RegisterView(FormView):
 			if self.request.GET.get('lati') == None:
 				self.request.session['user_latitude'] = templatenames.GARBAGE_LOCATION
 		if form.cleaned_data['iamamechanic'] == True:
+			if self.request.session.get('long') == None:
+				self.request.session['user_longitude'] = templatenames.GARBAGE_LOCATION
+			if self.request.session.get('lati') == None:
+				self.request.session['user_latitude'] = templatenames.GARBAGE_LOCATION
 			mechanic = Mechanic(user 	= user, 
-					    longitude   = self.request.session['user_longitude'],
-					    latitude 	= self.request.session['user_latitude']							
-					   )
+					    longitude   = self.request.session.get('user_longitude'),
+					    latitude 	= self.request.session.get('user_latitude') )
 			mechanic.save()			
 		if form.cleaned_data['iamamechanic'] == False:
 			driver = Driver( user 		= user,
-					 longitude	= self.request.session['user_longitude'],
-					 latitude	= self.request.session['user_latitude']				
-					)
+					 longitude	= self.request.session.get('user_longitude'),
+					 latitude	= self.request.session.get('user_latitude'))
 			driver.save()
 		return HttpResponseRedirect(redirect_to)
 	
