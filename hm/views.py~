@@ -11,7 +11,7 @@ from hm.templatenames import MAX_THRESHOLD_DIST
 from django.contrib.auth.models import User
 from django.conf import settings
 
-
+from hm.models import UserProfile
 class IndexView(TemplateView):
 	'''
 	Backend Coding Completed. Javascript and beautification left.
@@ -69,20 +69,15 @@ class RegisterView(FormView):
 			self.request.session['user_longitude'] = self.request.GET.get('long')
 			self.request.session['user_latitude'] = self.request.GET.get('lati')
 			
-		if form.cleaned_data['iamamechanic'] == True:
 			if self.request.session.get('user_longitude') == None:
 				self.request.session['user_longitude'] = templatenames.GARBAGE_LOCATION
 			if self.request.session.get('user_latitude') == None:
 				self.request.session['user_latitude'] = templatenames.GARBAGE_LOCATION
-			mechanic = Mechanic(user 	= user, 
+		userpro = UserProfile(user 	= user, 
 					    longitude   = self.request.session.get('user_longitude'),
-					    latitude 	= self.request.session.get('user_latitude') )
-			mechanic.save()			
-		if form.cleaned_data['iamamechanic'] == False:
-			driver = Driver( user 		= user,
-					 longitude	= self.request.session.get('user_longitude'),
-					 latitude	= self.request.session.get('user_latitude'))
-			driver.save()
+					    is_mechanic = form.cleaned_data['iamamechanic'],
+					    latitude 	= self.request.session.get('user_latitude') 
+		userpro.save()	
 		return HttpResponseRedirect(redirect_to)
 	
 	def form_invalid(self,form):
@@ -100,9 +95,9 @@ class ConfirmLocationView(RedirectView):
 			self.request.session['user_longitude'] = self.request.GET.get('long')
 			self.request.session['user_latitude'] = self.request.GET.get('lati')
 			if self.request.GET.get('long') == None:
-				self.request.session['user_longitude'] = self.request.user.get_user_longitude()
+				self.request.session['user_longitude'] = UserProfile.objects.get(user=self.request.user).get_longitude()
 			if self.request.GET.get('lati') == None:
-				self.request.session['user_latitude'] = self.request.user.methods.get_user_latitude()
+				self.request.session['user_latitude'] = UserProfile.objects.get(user=self.request.user).get_latitude()
 			
 		return context	
 

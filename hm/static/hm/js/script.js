@@ -12,9 +12,7 @@ $(document).ready(function(){
 window.addr = '';
 getLocation();
 
-/*function redirecter(){
-	window.location.href=window.redirect_mapper[window.urlname];
-}*/
+
 
 function getLocation() {
     if (navigator.geolocation) {
@@ -29,8 +27,8 @@ $('#mapholder').load(function(){
     });
 
 function showPosition(position) {
-    lat = position.coords.latitude;
-    lon = position.coords.longitude;
+    window.lat = position.coords.latitude;
+    window.lon = position.coords.longitude;
 
      $.ajax({
         	method: 'GET',
@@ -45,31 +43,31 @@ function showPosition(position) {
         	     alert("Your location seems to be unavailable at the moment. Please try again");
         	}
     });	    
-	
-    latlon = new google.maps.LatLng(lat, lon);
-    geocoder = new google.maps.Geocoder();
-    geocoder.geocode({'latLng':latlon},function(results,status){
-        if(status == google.maps.GeocoderStatus.OK){
-            window.addr = results[0].formatted_address;
-
-        }
-    });
-    mapholder = document.getElementById('mapholder')
-    mapholder.style.height = '70vh';
-    mapholder.style.width = '100%';
-
-    var myOptions = {
-    center:latlon,zoom:14,
-    mapTypeId:google.maps.MapTypeId.ROADMAP,
-    mapTypeControl:false,
-    navigationControlOptions:{style:google.maps.NavigationControlStyle.SMALL}
-    }
-    
-    var map = new google.maps.Map(document.getElementById("mapholder"), myOptions);
-    
-    var marker = new google.maps.Marker({position:latlon,map:map,title:"you are here!"});
-    console.log(addr);
 }
+
+function initialize() {
+  var usercenter = new google.maps.LatLng(window.lat,window.lon);  
+  var mapproperties = {
+    center:usercenter,
+    zoom:18,
+    panControl:true,
+    zoomControl:true,
+    mapTypeControl:true,
+    scaleControl:true,
+    streetViewControl:true,
+    overviewMapControl:true,
+    rotateControl:true,    
+    mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+  var map=new google.maps.Map(document.getElementById("mapholder"), mapproperties);
+  var marker=new google.maps.Marker({
+  position:usercenter,
+  });
+
+marker.setMap(map);
+} 
+
+google.maps.event.addDomListener(window, 'load', initialize);
 function showError(error) {
     switch(error.code) {
         case error.PERMISSION_DENIED:
