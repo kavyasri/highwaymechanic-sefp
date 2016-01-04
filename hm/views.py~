@@ -100,9 +100,9 @@ class ConfirmLocationView(RedirectView):
 			self.request.session['user_longitude'] = self.request.GET.get('long')
 			self.request.session['user_latitude'] = self.request.GET.get('lati')
 			if self.request.GET.get('long') == None:
-				self.request.session['user_longitude'] = methods.get_user_longitude()
+				self.request.session['user_longitude'] = self.request.user.get_user_longitude()
 			if self.request.GET.get('lati') == None:
-				self.request.session['user_latitude'] = methods.get_user_latitude()
+				self.request.session['user_latitude'] = self.request.user.methods.get_user_latitude()
 			
 		return context	
 
@@ -169,16 +169,7 @@ class ChatBoxView(TemplateView):
 		context = super(ChatBoxView,self).get_context_data(**kwargs)
 		return context
 
-class PaymentGatewayView(FormView):
-	
-	template_name = templatenames.PAYMENT_GATEWAY
-	def get_context_data(self, **kwargs):
-		context = super(PaymentGateway,self).get_context_data(**kwargs)
-		return context
-	def form_valid(self,form):
-		return super(PaymentGatewayView, self).form_valid(form)
-	def form_invalid(self,form):
-		return super(PaymentGatewayView, self).form_invalid(form)
+
 
 class UserWaitingView(TemplateView):
 	template_name = templatenames.USER_WAITING
