@@ -7,9 +7,9 @@
 <form method="post">
 	{% csrf_token %}
 	<label>Email</label>
-	{{ form.username}}
+	{{ form.username}}{{ form.errors}}
 	<label>Password</label>
-	{{form.password}}
+	{{form.password}}{{ form.errors }}
 	<button type="submit" class="btn btn-success">Login</button>
 </form>
 

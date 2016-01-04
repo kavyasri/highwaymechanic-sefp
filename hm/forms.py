@@ -12,7 +12,7 @@ class RegisterForm(forms.Form):
 	username  	= forms.EmailField( widget=forms.EmailInput(attrs={'class':'form-control'}) )	
 	password	= forms.CharField( widget=forms.PasswordInput(attrs={'class':'form-control'}) )
 	password_again  = forms.CharField( widget=forms.PasswordInput(attrs={'class':'form-control'}) )
-	iamamechanic	= forms.BooleanField(widget=forms.CheckboxInput() )
+	iamamechanic	= forms.BooleanField(widget=forms.CheckboxInput(), required=False )
 	def clean_username(self):
         	try:
             		user = User.objects.get(username__iexact=self.cleaned_data['username'])

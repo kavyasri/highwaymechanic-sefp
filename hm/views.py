@@ -10,10 +10,11 @@ from django.contrib.auth.models import UserManager
 from hm.templatenames import MAX_THRESHOLD_DIST
 from django.contrib.auth.models import User
 from django.conf import settings
+from hm.models import Driver, Mechanic
 
 class IndexView(TemplateView):
 	'''
-	Backend Coding Completed. Javascript validation and beautification left.
+	Backend Coding Completed. Javascript and beautification left.
 	'''
 	template_name = templatenames.INDEX	
 	def get_context_data(self, **kwargs):
@@ -32,6 +33,13 @@ class LoginView(FormView):
 		return context
 	def form_valid(self,form):
 		redirect_to = settings.LOGIN_REDIRECT_URL
+		if self.request.method == 'GET':	
+			self.request.session['user_longitude'] = self.request.GET.get('long')
+			self.request.session['user_latitude'] = self.request.GET.get('lati')
+			if self.request.GET.get('long') == None:
+				self.request.session['user_longitude'] = templatenames.GARBAGE_LOCATION
+			if self.request.GET.get('lati') == None:
+				self.request.session['user_latitude'] = templatenames.GARBAGE_LOCATION
         	auth_login(self.request, form.get_user())
         	if self.request.session.test_cookie_worked():
            		self.request.session.delete_test_cookie()
@@ -55,12 +63,48 @@ class RegisterView(FormView):
             	password 	= form.cleaned_data['password'],
 		email		= form.cleaned_data['username']
             	)
-		
+								
+		if self.request.method == 'GET':	
+			self.request.session['user_longitude'] = self.request.GET.get('long')
+			self.request.session['user_latitude'] = self.request.GET.get('lati')
+			if self.request.GET.get('long') == None:
+				self.request.session['user_longitude'] = templatenames.GARBAGE_LOCATION
+			if self.request.GET.get('lati') == None:
+				self.request.session['user_latitude'] = templatenames.GARBAGE_LOCATION
+		if form.cleaned_data['iamamechanic'] == True:
+			mechanic = Mechanic(user 	= user, 
+					    longitude   = self.request.session['user_longitude'],
+					    latitude 	= self.request.session['user_latitude']							
+					   )
+			mechanic.save()			
+		if form.cleaned_data['iamamechanic'] == False:
+			driver = Driver( user 		= user,
+					 longitude	= self.request.session['user_longitude'],
+					 latitude	= self.request.session['user_latitude']				
+					)
+			driver.save()
 		return HttpResponseRedirect(self.success_url)
 	
 	def form_invalid(self,form):
-
-		return super(RegisterView, self).form_invalid(form)	
+		
+		return super(RegisterView, self).form_invalid(form)
+	
+class ConfirmLocationView(RedirectView):
+	permanent=True
+	url = templatenames.service_select
+	template_name = templatenames.CONFIRM_LOCATION
+	pattern_name = templatenames.pattern_select_service
+	def get_redirect_url(self, *args, **kwargs):
+		context = super(ConfirmLocationView,self).get_redirect_url(*args,**kwargs)
+		if self.request.method == 'GET':	
+			self.request.session['user_longitude'] = self.request.GET.get('long')
+			self.request.session['user_latitude'] = self.request.GET.get('lati')
+			if self.request.GET.get('long') == None:
+				self.request.session['user_longitude'] = templatenames.GARBAGE_LOCATION
+			if self.request.GET.get('lati') == None:
+				self.request.session['user_latitude'] = templatenames.GARBAGE_LOCATION
+			
+		return context	
 
 class SelectServiceView(FormView):
 	
@@ -85,22 +129,7 @@ class SelectServiceView(FormView):
 	def form_invalid(self,form):
 		return super(SelectServiceView, self).form_invalid(form)
 
-class ConfirmLocationView(RedirectView):
-	permanent=True
-	url = templatenames.service_select
-	template_name = templatenames.CONFIRM_LOCATION
-	pattern_name = templatenames.pattern_select_service
-	def get_redirect_url(self, *args, **kwargs):
-		context = super(ConfirmLocationView,self).get_redirect_url(*args,**kwargs)
-		if self.request.method == 'GET':	
-			self.request.session['user_longitude'] = self.request.GET.get('long')
-			self.request.session['user_latitude'] = self.request.GET.get('lati')
-			if self.request.GET.get('long') == None:
-				self.request.session['user_longitude'] = templatenames.GARBAGE_LOCATION
-			if self.request.GET.get('lati') == None:
-				self.request.session['user_latitude'] = templatenames.GARBAGE_LOCATION
-			
-		return context	
+
 
 class SearchMechanicsView(RedirectView):
 	permanent=True

@@ -1,9 +1,21 @@
 $(document).ready(function(){
+    window.ajax_url_mapper = {
+        '/':'/location/confirm/',
+        '/accounts/register/':'/accounts/register/',
+        '/accounts/login/':'/accounts/login/'
+    };
+    window.redirect_mapper = {
+       '/':'/location/confirm/',
+        '/accounts/register/':'/',
+        '/accounts/login/':'/' 
+    };
+    window.urlname = window.location.pathname;
+    
 window.addr = '';
 getLocation();
 
 function redirecter(){
-	window.location.href="/location/confirm/";
+	window.location.href=window.redirect_mapper[window.urlname];
 }
 
 function getLocation() {
@@ -17,12 +29,14 @@ function getLocation() {
 $('#mapholder').load(function(){
         $('.loading-gif').hide();
     });
+
 function showPosition(position) {
     lat = position.coords.latitude;
     lon = position.coords.longitude;
+
      $.ajax({
         	method: 'GET',
-        	url: '/location/confirm',
+        	url: window.ajax_url_mapper[window.urlname],
         	data: {	    lati : position.coords.latitude,
 			    long : position.coords.longitude,			
 		},
