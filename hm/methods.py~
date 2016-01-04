@@ -1,6 +1,6 @@
 from haversine import haversine
 from django.contrib.auth.models import User
-from hm.models import Mechanic, Service
+from hm.models import UserProfile, Service
 from django.core import serializers
 from hm import templatenames
 
@@ -16,7 +16,7 @@ def retrieve_all_usernames():
 	return usernames
 
 def searchNearbyMechanics(user_location, max_threshold_dist):
-	mechanics = Mechanic.objects.all()
+	mechanics = UserProfile.objects.filter(is_mechanic=True)
 	MECHANIC_QUERY_LIST = list()
 	for mechanic in mechanics:		
 			mechanic_latitude = mechanic.latitude 
@@ -38,3 +38,7 @@ def location_caliberate(location):
 		return templatenames.GARBAGE_LOCATION
 	else:
 		return location
+def get_user_latitude(user):
+	return user
+def get_user_longitude(user):
+	return user

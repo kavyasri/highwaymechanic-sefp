@@ -10,7 +10,7 @@ from django.contrib.auth.models import UserManager
 from hm.templatenames import MAX_THRESHOLD_DIST
 from django.contrib.auth.models import User
 from django.conf import settings
-from hm.models import Driver, Mechanic
+
 
 class IndexView(TemplateView):
 	'''
@@ -103,9 +103,9 @@ class ConfirmLocationView(RedirectView):
 			self.request.session['user_longitude'] = self.request.GET.get('long')
 			self.request.session['user_latitude'] = self.request.GET.get('lati')
 			if self.request.GET.get('long') == None:
-				self.request.session['user_longitude'] = templatenames.GARBAGE_LOCATION
+				self.request.session['user_longitude'] = methods.get_user_longitude()
 			if self.request.GET.get('lati') == None:
-				self.request.session['user_latitude'] = templatenames.GARBAGE_LOCATION
+				self.request.session['user_latitude'] = methods.get_user_latitude()
 			
 		return context	
 
@@ -192,8 +192,5 @@ class UserWaitingView(TemplateView):
 				'ulong':self.request.session.get('user_longitude'),
 				'no_mechanics':(self.request.session.get('no_mechanics') == 0),
 				'service_selected':self.request.session.get('service_selected')
-				
-		}	
-			
-		
+			}	
 		return context

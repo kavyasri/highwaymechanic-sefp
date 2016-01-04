@@ -1,7 +1,6 @@
 $(document).ready(function(){
     $("#register-form").validate({
     
-        // Specify the validation rules
         rules: {
             username: {
                 required: true,
@@ -29,6 +28,28 @@ $(document).ready(function(){
             password_again:{
                 required:"Please enter the password again",
                 equalTo:"Passwords do not match"
+            },
+            username: "Please enter a valid email address",
+           
+        },
+        
+        submitHandler: function(form) {
+            form.submit();
+        }
+    });
+    $("#login-form").validate({
+        rules: {
+            username: {
+                required: true,
+                email: true
+            },
+            password: {
+                required: true,
+            },
+        },
+        messages: {
+            password: {
+                required: "Please enter your password",
             },
             username: "Please enter a valid email address",
            
