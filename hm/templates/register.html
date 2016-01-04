@@ -13,7 +13,7 @@
 			<form id="register-form" method="post">
 			{% csrf_token %}
 			{% if form.errors %}
-					{{form.errors.as_text}}
+					{{form.non_field_errors }}
 				{%endif%}
 				<label>Email</label>{{form.username}}
 				<br><label>Password</label>{{form.password}}
