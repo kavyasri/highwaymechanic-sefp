@@ -68,14 +68,11 @@ class RegisterView(FormView):
 		if self.request.method == 'GET':	
 			self.request.session['user_longitude'] = self.request.GET.get('long')
 			self.request.session['user_latitude'] = self.request.GET.get('lati')
-			if self.request.GET.get('long') == None:
-				self.request.session['user_longitude'] = templatenames.GARBAGE_LOCATION
-			if self.request.GET.get('lati') == None:
-				self.request.session['user_latitude'] = templatenames.GARBAGE_LOCATION
+			
 		if form.cleaned_data['iamamechanic'] == True:
-			if self.request.session.get('long') == None:
+			if self.request.session.get('user_longitude') == None:
 				self.request.session['user_longitude'] = templatenames.GARBAGE_LOCATION
-			if self.request.session.get('lati') == None:
+			if self.request.session.get('user_latitude') == None:
 				self.request.session['user_latitude'] = templatenames.GARBAGE_LOCATION
 			mechanic = Mechanic(user 	= user, 
 					    longitude   = self.request.session.get('user_longitude'),
