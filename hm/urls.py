@@ -16,7 +16,9 @@ urlpatterns=[
 	url(r'^chat/', 			login_required(ChatBoxView.as_view()), 			name='chatbox'  ),
 	url(r'^signout/', 		login_required(logout),
 						kwargs={'next_page':settings.LOGOUT_URL },	name='logout'), 
-	url(r'^passwordchange/', 	login_required(password_change),			name='passwordchange'),		
+	url(r'^changepassword/', 	login_required(password_change),			name='passwordchange',
+					kwargs={'post_change_redirect':settings.LOGIN_URL}),
+	
 ] 
 
 
