@@ -65,3 +65,23 @@ background: url(/static/hm/images/loading_map.gif) center no-repeat #fff;
 	font-size: 200%;
 	margin-top: 200px;
 }
+.mech-name{
+	color: blue;
+    display: block;
+    font-size: 18px;
+}
+.mech-dist{
+	color: green;
+    display: block;
+    font-size: 12px;
+}
+.mech-mob{
+	color: red;
+    display: block;
+    font-size: 12px;
+}
+.mech-wrap{
+	background-color: beige;
+    margin: 15px 0px;
+    padding: 5px 35px;
+}
