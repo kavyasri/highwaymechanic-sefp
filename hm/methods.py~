@@ -27,7 +27,9 @@ def searchNearbyMechanics(user_location, max_threshold_dist):
 			if distance < max_threshold_dist:
 				mechanic_object = dict()
 				mechanic_object['distance'] = distance 
-				mechanic_object['mechanic'] = mechanic.id
+				mechanic_object['mechanic'] = mechanic.user.id
+				mechanic_object['mobile'] = mechanic.mobile 
+				mechanic_object['name'] = mechanic.user.get_full_name()
 				MECHANIC_QUERY_LIST.append(mechanic_object)
 	return MECHANIC_QUERY_LIST
 def serialize_list(list_model):
@@ -38,7 +40,4 @@ def location_caliberate(location):
 		return templatenames.GARBAGE_LOCATION
 	else:
 		return location
-def get_user_latitude(user):
-	return user
-def get_user_longitude(user):
-	return user
+

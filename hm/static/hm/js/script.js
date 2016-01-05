@@ -34,7 +34,7 @@ function showPosition(position) {
         	method: 'GET',
         	url: window.ajax_url_mapper[window.urlname],
         	data: {	    lati : position.coords.latitude,
-			    long : position.coords.longitude,			
+			    longi : position.coords.longitude,			
 		},
         	success: function (data) {
              	

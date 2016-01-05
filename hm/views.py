@@ -34,7 +34,7 @@ class LoginView(FormView):
 	def form_valid(self,form):
 		redirect_to = settings.LOGIN_REDIRECT_URL
 		if self.request.method == 'GET':	
-			self.request.session['user_longitude'] = self.request.GET.get('long')
+			self.request.session['user_longitude'] = self.request.GET.get('longi')
 			self.request.session['user_latitude'] = self.request.GET.get('lati')
 			if self.request.GET.get('long') == None:
 				self.request.session['user_longitude'] = templatenames.GARBAGE_LOCATION
@@ -66,7 +66,7 @@ class RegisterView(FormView):
             	)
 								
 		if self.request.method == 'GET':	
-			self.request.session['user_longitude'] = self.request.GET.get('long')
+			self.request.session['user_longitude'] = self.request.GET.get('longi')
 			self.request.session['user_latitude'] = self.request.GET.get('lati')
 			
 		if self.request.session.get('user_longitude') == None:
@@ -92,13 +92,15 @@ class ConfirmLocationView(RedirectView):
 	def get_redirect_url(self, *args, **kwargs):
 		context = super(ConfirmLocationView,self).get_redirect_url(*args,**kwargs)
 		if self.request.method == 'GET':	
-			self.request.session['user_longitude'] = self.request.GET.get('long')
-			self.request.session['user_latitude'] = self.request.GET.get('lati')
-			if self.request.GET.get('long') == None:
-				self.request.session['user_longitude'] = UserProfile.objects.get(user=self.request.user).get_longitude()
+			self.request.session['user_longitude'] = str(self.request.GET.get('longi'))
+			self.request.session['user_latitude'] = str(self.request.GET.get('lati'))
+			if self.request.GET.get('longi') == None:
+				self.request.session['user_longitude'] = str(UserProfile.objects.get(user=self.request.user).get_longitude())
 			if self.request.GET.get('lati') == None:
-				self.request.session['user_latitude'] = UserProfile.objects.get(user=self.request.user).get_latitude()
-			
+				self.request.session['user_latitude'] = str(UserProfile.objects.get(user=self.request.user).get_latitude())
+			if self.request.GET.get('longi') == None and self.request.GET.get('lati') == None:
+				UserProfile.objects.get(user=self.request.user).set_longitude(str(self.request.session['user_longitude']))
+				UserProfile.objects.get(user=self.request.user).set_latitude(str(self.request.session['user_latitude']))
 		return context	
 
 class SelectServiceView(FormView):
@@ -108,8 +110,8 @@ class SelectServiceView(FormView):
 	success_url = templatenames.url_search_mechanics
 	def get_context_data(self, **kwargs):
 		context = super(SelectServiceView,self).get_context_data(**kwargs)
-		context = { 'user_lati':self.request.session.get('user_latitude'), 
-			    'user_long':self.request.session.get('user_longitude'),
+		context = { 'user_lati':float(self.request.session.get('user_latitude')), 
+			    'user_long':float(self.request.session.get('user_longitude')),
 			    'form':SelectServiceForm
 			}
  

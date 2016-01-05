@@ -61,3 +61,7 @@ background: url(/static/hm/images/loading_map.gif) center no-repeat #fff;
 	font-size: 16px;
 	color:white;
 }
+.text-mess{
+	font-size: 200%;
+	margin-top: 200px;
+}
