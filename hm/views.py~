@@ -76,7 +76,7 @@ class RegisterView(FormView):
 		userpro = UserProfile(user 	= user, 
 					    longitude   = self.request.session.get('user_longitude'),
 					    is_mechanic = form.cleaned_data['iamamechanic'],
-					    latitude 	= self.request.session.get('user_latitude') 
+					    latitude 	= self.request.session.get('user_latitude') )
 		userpro.save()	
 		return HttpResponseRedirect(redirect_to)
 	

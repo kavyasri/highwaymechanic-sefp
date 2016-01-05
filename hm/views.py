@@ -69,9 +69,9 @@ class RegisterView(FormView):
 			self.request.session['user_longitude'] = self.request.GET.get('long')
 			self.request.session['user_latitude'] = self.request.GET.get('lati')
 			
-			if self.request.session.get('user_longitude') == None:
+		if self.request.session.get('user_longitude') == None:
 				self.request.session['user_longitude'] = templatenames.GARBAGE_LOCATION
-			if self.request.session.get('user_latitude') == None:
+		if self.request.session.get('user_latitude') == None:
 				self.request.session['user_latitude'] = templatenames.GARBAGE_LOCATION
 		userpro = UserProfile(user 	= user, 
 					    longitude   = self.request.session.get('user_longitude'),

@@ -8,7 +8,7 @@
           <i class="fa fa-road"></i>
             Highway Mechanic
         </span>
-                                          
+         {% if request.user.is_active %}                                 
         <div class="dropdown" id="dropdown-user">
             <span class="name-holder">{{request.user}}</span>
             <a style="margin-top:-10px;" class="name-holder" type="button" id="menu1" data-toggle="dropdown"/>
@@ -16,10 +16,11 @@
             </a>
             <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
               <li role="presentation" class="divider"></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Sign Out</a></li>
-              <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Change Password</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="/signout/">Sign Out</a></li>
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="/changepassword/">Change Password</a></li>
             </ul>
         </div>
+        {% endif %}
       </center> 
     </div>
  </div>
